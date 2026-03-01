@@ -15,6 +15,6 @@ export default async function handler(req, res) {
     }
   );
   const data = await response.json();
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text || JSON.stringify(data);
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Failed to load.';
   res.status(200).json({ content: [{ type: 'text', text }] });
 }
