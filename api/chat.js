@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
   
-  const { messages, max_tokens } = req.body;
+  const { messages } = req.body;
   const userMessage = messages[0].content;
 
   const response = await fetch(
@@ -14,11 +14,7 @@ export default async function handler(req, res) {
       }),
     }
   );
-
   const data = await response.json();
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Failed to load.';
-  
-  res.status(200).json({
-    content: [{ type: 'text', text }]
-  });
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text || JSON.stringify(data);
+  res.status(200).json({ content: [{ type: 'text', text }] });
 }
